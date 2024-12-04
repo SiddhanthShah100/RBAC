@@ -6,8 +6,6 @@ node_modules
 .pnp.js
 
 .env
-/rbac-backend/config/firebase-admin-sdk.json
-./config/firebase-admin-sdk.json
 
 # testing
 /coverage
