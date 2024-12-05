@@ -17,6 +17,7 @@ import {
   Paper,
 } from "@mui/material";
 import bgImage from "../Images/bg-01.jpg";
+
 function UserDashboard() {
   const [userData, setUserData] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -44,9 +45,7 @@ function UserDashboard() {
 
     fetchUserData();
   }, []);
-  const goToAdminDashboard = () => {
-    navigate("/admin-dashboard");
-  };
+
   const handleLogout = async () => {
     try {
       await signOut(auth);
@@ -54,6 +53,10 @@ function UserDashboard() {
     } catch (error) {
       console.error("Error during logout:", error);
     }
+  };
+
+  const goToAdminDashboard = () => {
+    navigate("/admin-dashboard");
   };
 
   if (loading) {
@@ -67,6 +70,50 @@ function UserDashboard() {
         }}
       >
         <CircularProgress />
+      </Box>
+    );
+  }
+
+  // Show verification prompt if email is not verified
+  if (auth.currentUser && !auth.currentUser.emailVerified) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+          minHeight: "100vh",
+          backgroundColor: "#ffffff",
+          textAlign: "center",
+        }}
+      >
+        <Typography
+          variant="h4"
+          sx={{
+            color: "#d32f2f",
+            marginBottom: 2,
+            fontWeight: "bold",
+          }}
+        >
+          Please Verify Your Email
+        </Typography>
+        <Typography variant="body1" sx={{ marginBottom: 3 }}>
+          A verification link has been sent to your registered email.
+          Please check your inbox and verify your email to activate your account.
+        </Typography>
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={handleLogout}
+          sx={{
+            padding: "12px 24px",
+            fontWeight: 600,
+            "&:hover": { backgroundColor: "#1565c0" },
+          }}
+        >
+          Logout
+        </Button>
       </Box>
     );
   }
@@ -86,7 +133,11 @@ function UserDashboard() {
       >
         <Typography
           variant="h4"
-          sx={{ color: "#d32f2f", marginBottom: 2, fontWeight: "bold" }}
+          sx={{
+            color: "#d32f2f",
+            marginBottom: 2,
+            fontWeight: "bold",
+          }}
         >
           Your account is inactive
         </Typography>
